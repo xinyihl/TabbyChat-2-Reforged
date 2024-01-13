@@ -5,8 +5,6 @@ TabbyChat 2 is the successor to [TabbyChat](http://github.com/killjoy1221/tabbyc
 Stable builds are available on the Minecraft Forums topic and CurseForge, linked below.
 
 # Links
-- [Snapshot Builds ![Build Status](https://img.shields.io/travis/killjoy1221/TabbyChat-2.svg?style=flat-square)](https://travis-ci.org/killjoy1221/TabbyChat-2)
-- [Minecraft Forums](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2181597-n)
 - [CurseForge](https://minecraft.curseforge.com/projects/tabbychat-2)
 
 TabbyChat 2 also has an API. Check the `mnm.mods.tabbychat.api` package for the source references.
@@ -18,12 +16,3 @@ After installing LiteLoader, copy TabbyChat-2 into your `.minecraft/mods` folder
 
 If you wish to use forge on 1.10.x, the minimum version supported is build 2020. A bug was fixed in that version which was causing a crash with mixins (See [#57](../../issues/57)).
 
-# Building
-To build, run the following commands. Git is required to be installed.
-
-**Note:** If you are on Linux or Mac, you will need to use `./gradlew` in place of `gradlew`.
-```
-gradlew setupCIWorkspace
-gradlew build
-```
-TabbyChat will be in the `build/libs` folder

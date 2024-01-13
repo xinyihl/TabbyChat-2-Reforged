@@ -1,10 +1,10 @@
 package mnm.mods.util.test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
 
 import mnm.mods.util.Color;
+import org.junit.jupiter.api.Test;
 
 public class ColorTest {
 

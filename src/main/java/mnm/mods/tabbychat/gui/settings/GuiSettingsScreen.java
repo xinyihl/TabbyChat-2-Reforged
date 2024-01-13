@@ -3,19 +3,13 @@ package mnm.mods.tabbychat.gui.settings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.eventbus.Subscribe;
-import com.mumfrey.liteloader.core.LiteLoader;
 import mnm.mods.tabbychat.ChatManager;
 import mnm.mods.tabbychat.TabbyChat;
 import mnm.mods.util.Color;
 import mnm.mods.util.ILocation;
 import mnm.mods.util.Location;
 import mnm.mods.util.config.SettingsFile;
-import mnm.mods.util.gui.BorderLayout;
-import mnm.mods.util.gui.ComponentScreen;
-import mnm.mods.util.gui.GuiButton;
-import mnm.mods.util.gui.GuiComponent;
-import mnm.mods.util.gui.GuiPanel;
-import mnm.mods.util.gui.VerticalLayout;
+import mnm.mods.util.gui.*;
 import mnm.mods.util.gui.config.SettingPanel;
 import mnm.mods.util.gui.events.ActionPerformedEvent;
 import net.minecraft.client.Minecraft;
@@ -112,7 +106,7 @@ public class GuiSettingsScreen extends ComponentScreen {
         super.onGuiClosed();
         for (SettingPanel<?> settingPanel : panels) {
             SettingsFile config = settingPanel.getSettings();
-            LiteLoader.getInstance().writeConfig(config);
+            //LiteLoader.getInstance().writeConfig(config);
         }
         ((ChatManager) TabbyChat.getInstance().getChat()).getChatBox().getChatArea().markDirty();
     }

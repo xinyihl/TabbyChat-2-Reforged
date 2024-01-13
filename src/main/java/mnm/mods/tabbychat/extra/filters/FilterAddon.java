@@ -11,6 +11,7 @@ import mnm.mods.tabbychat.api.filters.Filter;
 import mnm.mods.tabbychat.api.filters.FilterEvent;
 import mnm.mods.tabbychat.settings.ServerSettings;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.List;
 import java.util.Map;
@@ -21,9 +22,9 @@ import java.util.regex.Pattern;
 
 public class FilterAddon {
 
-    private static Map<String, Optional<Supplier<String>>> variables = Maps.newHashMap();
+    private static final Map<String, Optional<Supplier<String>>> variables = Maps.newHashMap();
 
-    private List<Filter> filters = Lists.newArrayList();
+    private final List<Filter> filters = Lists.newArrayList();
 
     public FilterAddon() {
         filters.add(new ChannelFilter());
@@ -51,7 +52,7 @@ public class FilterAddon {
                 .orElse("");
     }
 
-    @Subscribe
+    @SubscribeEvent
     public void onChatRecieved(ChatReceivedEvent message) {
         ServerSettings settings = TabbyChat.getInstance().serverSettings;
         if (settings == null) {

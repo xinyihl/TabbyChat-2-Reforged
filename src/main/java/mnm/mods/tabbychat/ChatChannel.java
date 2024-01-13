@@ -13,6 +13,7 @@ import mnm.mods.tabbychat.util.ChatTextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -157,7 +158,8 @@ public class ChatChannel implements Channel {
             removeMessages(id);
         }
         MessageAddedToChannelEvent event = new MessageAddedToChannelEvent(chat.createCopy(), id, this);
-        TabbyChat.getInstance().getBus().post(event);
+        //TabbyChat.getInstance().getBus().post(event);
+        MinecraftForge.EVENT_BUS.post(event);
         if (event.text == null) {
             return;
         }

@@ -2,12 +2,13 @@ package mnm.mods.tabbychat.test;
 
 import com.google.common.collect.Lists;
 import mnm.mods.tabbychat.util.ChannelPatterns;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PatternTests {
 
@@ -42,7 +43,7 @@ public class PatternTests {
     private void test(ChannelPatterns pattern, String format) {
         List<ChanPattern> list = setupChannelPatterns(pattern, format);
         for (ChanPattern chan : list) {
-            Assert.assertEquals(chan.channel, chan.testChannel());
+            assertEquals(chan.channel, chan.testChannel());
         }
     }
 

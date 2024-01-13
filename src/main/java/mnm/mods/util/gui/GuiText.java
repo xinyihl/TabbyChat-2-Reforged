@@ -1,7 +1,6 @@
 package mnm.mods.util.gui;
 
 import com.google.common.eventbus.Subscribe;
-import com.mumfrey.liteloader.client.overlays.IGuiTextField;
 import mnm.mods.util.Color;
 import mnm.mods.util.ILocation;
 import mnm.mods.util.gui.events.GuiKeyboardEvent;
@@ -68,10 +67,13 @@ public class GuiText extends GuiComponent implements IGuiInput<String> {
     private void updateTextbox(ILocation loc) {
         int width = loc.getWidth();
         int height = loc.getHeight();
+        textField.width = width;
+        textField.height = height;
         // this interface is provided by liteloader. (Thanks, mum)
+        /*
         IGuiTextField field = (IGuiTextField) this.textField;
         field.setInternalWidth(width);
-        field.setHeight(height);
+        field.setHeight(height);*/
     }
 
     @Override

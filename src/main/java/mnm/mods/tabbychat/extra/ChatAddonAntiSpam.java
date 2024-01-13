@@ -5,15 +5,16 @@ import com.google.common.eventbus.Subscribe;
 import mnm.mods.tabbychat.TabbyChat;
 import mnm.mods.tabbychat.api.Channel;
 import mnm.mods.tabbychat.api.events.MessageAddedToChannelEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
 public class ChatAddonAntiSpam {
 
-    private Map<Channel, Counter> messageMap = Maps.newHashMap();
+    private final Map<Channel, Counter> messageMap = Maps.newHashMap();
 
-    @Subscribe
+    @SubscribeEvent
     public void onMessageAdded(MessageAddedToChannelEvent event) {
 
         boolean enabled = TabbyChat.getInstance().settings.general.antiSpam.get();
@@ -35,7 +36,7 @@ public class ChatAddonAntiSpam {
         }
     }
 
-    private class Counter {
+    private static class Counter {
         private String lastMessage = "";
         private int spamCounter = 1;
     }

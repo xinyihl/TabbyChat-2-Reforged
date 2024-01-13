@@ -1,7 +1,7 @@
 package mnm.mods.tabbychat.extra.filters;
 
+import mnm.mods.tabbychat.TabbyChat;
 import mnm.mods.tabbychat.api.Channel;
-import mnm.mods.tabbychat.api.TabbyAPI;
 import mnm.mods.tabbychat.api.filters.Filter;
 import mnm.mods.tabbychat.api.filters.FilterEvent;
 import mnm.mods.tabbychat.api.filters.FilterSettings;
@@ -11,10 +11,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.ITextComponent;
 
+import javax.annotation.RegEx;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-import javax.annotation.RegEx;
 
 public class UserFilter implements Filter {
 
@@ -110,7 +110,7 @@ public class UserFilter implements Filter {
             if (name.startsWith("#") || name.startsWith("@"))
                 name = name.substring(1);
 
-            Channel channel = TabbyAPI.getAPI().getChat().getChannel(name, pm);
+            Channel channel = TabbyChat.getInstance().getChat().getChannel(name, pm);
             event.channels.add(channel);
         }
         // play sound

@@ -2,7 +2,6 @@ package mnm.mods.tabbychat.extra.filters;
 
 import mnm.mods.tabbychat.TabbyChat;
 import mnm.mods.tabbychat.api.Channel;
-import mnm.mods.tabbychat.api.TabbyAPI;
 import mnm.mods.tabbychat.api.filters.Filter;
 import mnm.mods.tabbychat.api.filters.FilterEvent;
 import mnm.mods.tabbychat.settings.GeneralServerSettings;
@@ -24,7 +23,7 @@ public class ChannelFilter implements Filter {
         GeneralServerSettings general = TabbyChat.getInstance().serverSettings.general;
         if (general.channelsEnabled.get()) {
             String chan = event.matcher.group(1);
-            Channel dest = TabbyAPI.getAPI().getChat().getChannel(chan);
+            Channel dest = TabbyChat.getInstance().getChat().getChannel(chan);
             event.channels.add(dest);
 
         }

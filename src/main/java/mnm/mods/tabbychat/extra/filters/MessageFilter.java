@@ -2,7 +2,6 @@ package mnm.mods.tabbychat.extra.filters;
 
 import mnm.mods.tabbychat.TabbyChat;
 import mnm.mods.tabbychat.api.Channel;
-import mnm.mods.tabbychat.api.TabbyAPI;
 import mnm.mods.tabbychat.api.filters.Filter;
 import mnm.mods.tabbychat.api.filters.FilterEvent;
 import mnm.mods.tabbychat.util.MessagePatterns;
@@ -34,7 +33,7 @@ public class MessageFilter implements Filter {
             if (player == null) {
                 player = event.matcher.group(2);
             }
-            Channel dest = TabbyAPI.getAPI().getChat().getChannel(player, true);
+            Channel dest = TabbyChat.getInstance().getChat().getChannel(player, true);
             event.channels.add(dest);
         }
     }

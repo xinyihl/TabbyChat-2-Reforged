@@ -1,14 +1,15 @@
 package mnm.mods.tabbychat.test;
 
-import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
 
 import mnm.mods.tabbychat.util.ChatTextUtils;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ChatTextUtilsTest {
 

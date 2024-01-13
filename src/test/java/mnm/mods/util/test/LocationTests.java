@@ -1,11 +1,13 @@
 package mnm.mods.util.test;
 
-import static org.junit.Assert.*;
 
-import org.junit.Test;
 
 import mnm.mods.util.ILocation;
 import mnm.mods.util.Location;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LocationTests {
 

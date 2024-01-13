@@ -5,7 +5,6 @@ import static mnm.mods.tabbychat.util.Translation.*;
 import com.google.common.eventbus.Subscribe;
 import mnm.mods.tabbychat.TabbyChat;
 import mnm.mods.tabbychat.api.Channel;
-import mnm.mods.tabbychat.api.TabbyAPI;
 import mnm.mods.tabbychat.settings.ServerSettings;
 import mnm.mods.util.Color;
 import mnm.mods.util.Location;
@@ -125,7 +124,7 @@ public class GuiSettingsChannel extends SettingPanel<ServerSettings> {
             public void oohShinyObject(ActionPerformedEvent event) {
                 Channel channel = GuiSettingsChannel.this.channel;
                 // remove from chat
-                TabbyAPI.getAPI().getChat().removeChannel(channel);
+                TabbyChat.getInstance().getChat().removeChannel(channel);
                 // remove from settings file
                 getSettings().channels.get().remove(channel.getName());
                 if (!channel.isPm()) {

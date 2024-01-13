@@ -15,6 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Mouse;
 
 import java.util.List;
@@ -106,7 +107,7 @@ public class GuiNewChatTC extends GuiNewChat implements ChatScreen {
         // chat listeners
         ChatReceivedEvent chatevent = new ChatReceivedEvent(ichat, id);
         chatevent.channels.add(ChatChannel.DEFAULT_CHANNEL);
-        tc.getBus().post(chatevent);
+        MinecraftForge.EVENT_BUS.post(chatevent);
         // chat filters
         ichat = chatevent.text;
         id = chatevent.id;

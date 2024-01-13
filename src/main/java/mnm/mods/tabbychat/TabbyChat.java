@@ -1,10 +1,7 @@
 package mnm.mods.tabbychat;
 
-import com.google.common.eventbus.EventBus;
-import com.mumfrey.liteloader.core.LiteLoader;
+import io.netty.channel.local.LocalAddress;
 import mnm.mods.tabbychat.api.ChannelStatus;
-import mnm.mods.tabbychat.api.TabbyAPI;
-import mnm.mods.tabbychat.api.VersionData;
 import mnm.mods.tabbychat.core.GuiNewChatTC;
 import mnm.mods.tabbychat.core.mixin.IGuiIngame;
 import mnm.mods.tabbychat.extra.ChatAddonAntiSpam;
@@ -14,57 +11,65 @@ import mnm.mods.tabbychat.extra.spell.Spellcheck;
 import mnm.mods.tabbychat.gui.settings.GuiSettingsScreen;
 import mnm.mods.tabbychat.settings.ServerSettings;
 import mnm.mods.tabbychat.settings.TabbySettings;
-import mnm.mods.tabbychat.util.TabbyRef;
-import mnm.mods.util.MnmUtils;
+import mnm.mods.util.DefaultChatProxy;
+import mnm.mods.util.IChatProxy;
 import mnm.mods.util.gui.config.SettingPanel;
-import mnm.mods.util.update.UpdateChecker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.resources.IReloadableResourceManager;
+import net.minecraft.network.NetworkManager;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import javax.annotation.Nullable;
 
-public class TabbyChat extends TabbyAPI {
-
-    private static final Logger LOGGER = LogManager.getLogger(TabbyRef.MOD_ID);
+@Mod(modid = Reference.MOD_ID, version = Reference.MOD_VERSION, name = Reference.MOD_NAME)
+@Mod.EventBusSubscriber
+public class TabbyChat {
+    private IChatProxy chatProxy = new DefaultChatProxy();
+    private static final Logger LOGGER = LogManager.getLogger(Reference.MOD_ID);
 
     private ChatManager chatManager;
     private GuiNewChatTC chatGui;
-    private EventBus bus = new EventBus();
     private Spellcheck spellcheck;
 
     public TabbySettings settings;
     public ServerSettings serverSettings;
 
     private File dataFolder;
-    private InetSocketAddress currentServer;
+    private SocketAddress currentServer;
 
     private boolean updateChecked;
 
-    public TabbyChat(File configPath) {
-        super();
-        this.dataFolder = new File(configPath, TabbyRef.MOD_ID);
+    public TabbyChat() {
+        instance = this;
+        dataFolder = new File(Minecraft.getMinecraft().gameDir, Reference.MOD_ID);
     }
-
+    
+    private static TabbyChat instance;
+    
     public static TabbyChat getInstance() {
-        return (TabbyChat) getAPI();
+        if (instance == null) {
+            instance = new TabbyChat();
+        }
+        return instance;
     }
 
     public static Logger getLogger() {
         return LOGGER;
     }
+    
 
-    @Override
-    public VersionData getVersionData() {
-        return new Version();
-    }
-
-    @Override
     public ChatManager getChat() {
         return chatManager;
     }
@@ -72,11 +77,7 @@ public class TabbyChat extends TabbyAPI {
     public GuiNewChatTC getChatGui() {
         return chatGui;
     }
-
-    @Override
-    public EventBus getBus() {
-        return bus;
-    }
+    
 
     public Spellcheck getSpellcheck() {
         return spellcheck;
@@ -88,88 +89,81 @@ public class TabbyChat extends TabbyAPI {
     }
 
     public InetSocketAddress getCurrentServer() {
-        return this.currentServer;
+        return (InetSocketAddress) currentServer;
     }
 
     public File getDataFolder() {
         return dataFolder;
     }
 
-    public void init() {
-
+    @EventHandler
+    public void init(FMLPreInitializationEvent event) {
+        LOGGER.info("TabbyChat initializing");
         // Set global settings
         settings = new TabbySettings();
-        LiteLoader.getInstance().registerExposable(settings, null);
+        //LiteLoader.getInstance().registerExposable(settings, null);
 
         spellcheck = new Spellcheck(getDataFolder());
 
         // Keeps the current language updated whenever it is changed.
         IReloadableResourceManager irrm = (IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager();
         irrm.registerReloadListener(spellcheck);
-
-        bus.register(new ChatAddonAntiSpam());
-        bus.register(new FilterAddon());
-        bus.register(new ChatLogging(new File("logs/chat")));
+        MinecraftForge.EVENT_BUS.register(new PlayerLoginHandler());
+        MinecraftForge.EVENT_BUS.register(new ChatAddonAntiSpam());
+        MinecraftForge.EVENT_BUS.register(new FilterAddon());
+        MinecraftForge.EVENT_BUS.register(new ChatLogging(new File("logs/chat")));
 
     }
 
-    public void postInit(MnmUtils utils) {
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        LOGGER.info("TabbyChat initializing");
         // gui related stuff should be done here
         chatManager = new ChatManager(this);
         // this is set here because status relies on `chatManager`.
         ChatChannel.DEFAULT_CHANNEL.setStatus(ChannelStatus.ACTIVE);
         chatGui = new GuiNewChatTC(Minecraft.getMinecraft(), chatManager);
 
-        utils.setChatProxy(new TabbedChatProxy());
+        chatProxy = new TabbedChatProxy();
     }
 
-    public void onJoin(@Nullable SocketAddress address) {
-        if (address instanceof InetSocketAddress) {
-            this.currentServer = (InetSocketAddress) address;
+    public void onJoin() {
+        NetworkManager manager = FMLCommonHandler.instance().getClientToServerNetworkManager();
+        if (manager == null) {
+            currentServer = new InetSocketAddress("127.0.0.1", 25565);
         } else {
-            this.currentServer = null;
+            currentServer = FMLCommonHandler.instance().getClientToServerNetworkManager().getRemoteAddress();
         }
-
+    
         // Set server settings
         serverSettings = new ServerSettings(currentServer);
-        LiteLoader.getInstance().registerExposable(serverSettings, null);
-
+        //LiteLoader.getInstance().registerExposable(serverSettings, null);
+    
         try {
             hookIntoChat(Minecraft.getMinecraft().ingameGUI);
         } catch (Exception e) {
             LOGGER.fatal("Unable to hook into chat.  This is bad.", e);
         }
         // load chat
-        File conf = serverSettings.getFile().getParentFile();
+        /*File conf = serverSettings.getFile().getParentFile();
         try {
             chatManager.loadFrom(conf);
         } catch (Exception e) {
             LOGGER.warn("Unable to load chat data.", e);
-        }
-
-        if (this.settings.general.checkUpdates.get() && !updateChecked) {
-            UpdateChecker.runUpdateCheck(TabbedChatProxy.INSTANCE, TabbyRef.getVersionData());
+        }*/
+    
+        if (settings.general.checkUpdates.get() && !updateChecked) {
+            //UpdateChecker.runUpdateCheck(TabbedChatProxy.INSTANCE, TabbyRef.getVersionData());
             updateChecked = true;
         }
     }
 
-    @SuppressWarnings("MixinClassReference")
+    
     private void hookIntoChat(GuiIngame guiIngame) throws Exception {
         if (!GuiNewChatTC.class.isAssignableFrom(guiIngame.getChatGUI().getClass())) {
             ((IGuiIngame) guiIngame).setPersistantChatGUI(chatGui);
             LOGGER.info("Successfully hooked into chat.");
         }
     }
-
-    private class Version implements VersionData {
-        @Override
-        public double getRevision() {
-            return TabbyRef.MOD_REVISION;
-        }
-
-        @Override
-        public String getVersion() {
-            return TabbyRef.MOD_VERSION;
-        }
-    }
+    
 }
