@@ -1,18 +1,9 @@
-TabbyChat 2
+TabbyChat 2 Redorged
 -----------
-TabbyChat 2 is the successor to [TabbyChat](http://github.com/killjoy1221/tabbychat), which was originally created by RocketMan10404.  The mod is mostly stable, but there may still be some bugs. Report any you find.
- 
-Stable builds are available on the Minecraft Forums topic and CurseForge, linked below.
 
-# Links
-- [CurseForge](https://minecraft.curseforge.com/projects/tabbychat-2)
+TabbyChat 2 是 RocketMan10404 制作的 [TabbyChat](http://github.com/killjoy1221/tabbychat) 的后续版本。
 
-TabbyChat 2 also has an API. Check the `mnm.mods.tabbychat.api` package for the source references.
+该仓库则是 [TabbyChat-2-Reforged](https://github.com/kappa-maintainer/TabbyChat-2-Reforged) 的 fork 修正了一些令游戏崩溃的 bug
 
-# Installing
-**Requires LiteLoader**
-
-After installing LiteLoader, copy TabbyChat-2 into your `.minecraft/mods` folder. Don't extract it.
-
-If you wish to use forge on 1.10.x, the minimum version supported is build 2020. A bug was fixed in that version which was causing a crash with mixins (See [#57](../../issues/57)).
-
+# 安装
+下载 [最新发行版](https://github.com/xinyihl/TabbyChat-2-Reforged/releases) 放到 mods 文件夹即可，无需 LiteLoader
