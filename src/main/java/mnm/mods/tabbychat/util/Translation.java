@@ -3,7 +3,6 @@ package mnm.mods.tabbychat.util;
 public final class Translation {
 
     public static final String TABBYCHAT = "tabbychat";
-
     public static final String FORMAT_MESSAGE_WHISPER = "tabbychat.formats.messages.whisper";
     public static final String FORMAT_MESSAGE_ARROW = "tabbychat.formats.messages.arrow";
     public static final String FORMAT_MESSAGE_TO_FROM = "tabbychat.formats.messages.toFrom";
@@ -56,6 +55,8 @@ public final class Translation {
     public static final String IGNORED_CHANNELS_DESC = "tabbychat.settings.server.ignoredChannels.desc";
     public static final String DEFAULT_CHANNEL_COMMAND = "tabbychat.settings.server.channelCommand";
     public static final String DEFAULT_CHANNEL_COMMAND_DESC = "tabbychat.settings.server.channelCommand.desc";
+    public static final String DEFAULT_CHANNEL = "tabbychat.settings.server.defaultChannel";
+    public static final String DEFAULT_CHANNEL_DESC = "tabbychat.settings.server.defaultChannel.desc";
     public static final String FILTERS = "tabbychat.settings.server.filters";
     public static final String FILTERS_NEW = "tabbychat.settings.server.filters.new";
 

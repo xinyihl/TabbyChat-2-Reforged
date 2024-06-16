@@ -91,9 +91,9 @@ public class GuiSettingsServer extends SettingPanel<ServerSettings> {
         this.addComponent(strChannels, new int[]{5, pos, 5, 1});
 
         pos += 2;
-        this.addComponent(new GuiLabel(new TextComponentTranslation("Default channel")), new int[]{0, pos});
+        this.addComponent(new GuiLabel(new TextComponentTranslation(DEFAULT_CHANNEL)), new int[]{0, pos});
         GuiSettingString strMessages = new GuiSettingString(sett.defaultChannel);
-        strMessages.setCaption(new TextComponentTranslation(""));
+        strMessages.setCaption(new TextComponentTranslation(DEFAULT_CHANNEL_DESC));
         this.addComponent(strMessages, new int[]{5, pos, 5, 1});
 
         // Filters

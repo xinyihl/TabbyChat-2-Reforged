@@ -28,7 +28,7 @@ public class ServerSettings extends SettingsFile {
 
     private static String getIPForFileName(SocketAddress addr) {
         String ip;
-        if (!(addr instanceof InetSocketAddress)) {
+        if (addr instanceof InetSocketAddress) {
             ip = "singleplayer";
         } else {
             String url = ((InetSocketAddress) addr).getHostName();

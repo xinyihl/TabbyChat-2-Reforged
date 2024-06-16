@@ -14,6 +14,7 @@ import mnm.mods.util.gui.config.SettingPanel;
 import mnm.mods.util.gui.events.ActionPerformedEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.resources.I18n;
 
 import java.util.List;
 import java.util.Map;
@@ -67,7 +68,7 @@ public class GuiSettingsScreen extends ComponentScreen {
         this.panel.addComponent(panel, BorderLayout.Position.WEST);
         panel.addComponent(settingsList = new GuiPanel(new VerticalLayout()), BorderLayout.Position.WEST);
 
-        GuiButton close = new GuiButton("Close");
+        GuiButton close = new GuiButton(I18n.format("gui.done"));
         close.setLocation(new Location(0, 0, 40, 10));
         close.setSecondaryColor(Color.of(0, 255, 0, 127));
         close.getBus().register(new Object() {

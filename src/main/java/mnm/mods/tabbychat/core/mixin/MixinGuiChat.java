@@ -68,6 +68,7 @@ public abstract class MixinGuiChat extends GuiScreen implements ITabCompleter {
 
     @Inject(method = "initGui()V", at = @At("RETURN"))
     private void onInitGui(CallbackInfo ci) {
+        if (this.textBox == null) this.onInitialization(null);
         this.inputField = this.textBox.getTextField();
         ((IChatTabCompleter) this.tabCompleter).setTextField(this.inputField);
         chatGui.getBus().post(new ChatInitEvent(that));
