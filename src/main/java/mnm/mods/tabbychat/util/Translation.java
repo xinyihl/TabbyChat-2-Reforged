@@ -15,6 +15,8 @@ public final class Translation {
     public static final String DELIMS_ANGLES_PARENS = "tabbychat.delims.anglesparens";
     public static final String DELIMS_ANGLES_BRAKETS = "tabbychat.delims.anglesbrackets";
 
+    public static final String DELIMS_INVERTEDCOMMA = "tabbychat.delims.invertedcomma";
+
     public static final String SETTINGS_TITLE = "tabbychat.settings.title";
     public static final String SETTINGS_SAVE = "tabbychat.settings.save";
     public static final String SETTINGS_CLOSE = "tabbychat.settings.close";

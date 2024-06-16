@@ -7,6 +7,7 @@ import mnm.mods.util.IPUtils;
 import mnm.mods.util.config.SettingsFile;
 import mnm.mods.util.config.ValueList;
 import mnm.mods.util.config.ValueMap;
+import net.minecraft.client.Minecraft;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -28,7 +29,7 @@ public class ServerSettings extends SettingsFile {
 
     private static String getIPForFileName(SocketAddress addr) {
         String ip;
-        if (addr instanceof InetSocketAddress) {
+        if (Minecraft.getMinecraft().isSingleplayer()) {
             ip = "singleplayer";
         } else {
             String url = ((InetSocketAddress) addr).getHostName();

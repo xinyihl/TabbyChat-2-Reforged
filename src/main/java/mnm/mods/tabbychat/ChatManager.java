@@ -21,6 +21,7 @@ import mnm.mods.util.Location;
 import mnm.mods.util.config.ValueMap;
 import mnm.mods.util.text.TextBuilder;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumTypeAdapterFactory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
@@ -287,7 +288,7 @@ public class ChatManager implements Chat {
             time = "UNKNOWN";
         }
         ITextComponent chat = new TextBuilder()
-                .text("Chat log from " + time)
+                .text(I18n.format("tabbychat.message.loadchatdata", time))
                 .format(TextFormatting.GRAY)
                 .build();
         for (Channel c : getChannels()) {

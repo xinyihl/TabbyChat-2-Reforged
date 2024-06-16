@@ -1,6 +1,5 @@
 package mnm.mods.tabbychat;
 
-import io.netty.channel.local.LocalAddress;
 import mnm.mods.tabbychat.api.ChannelStatus;
 import mnm.mods.tabbychat.core.GuiNewChatTC;
 import mnm.mods.tabbychat.core.mixin.IGuiIngame;
@@ -17,15 +16,11 @@ import mnm.mods.util.gui.config.SettingPanel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.resources.IReloadableResourceManager;
-import net.minecraft.network.NetworkManager;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -127,30 +122,29 @@ public class TabbyChat {
         chatProxy = new TabbedChatProxy();
     }
 
-    public void onJoin() {
-        NetworkManager manager = FMLCommonHandler.instance().getClientToServerNetworkManager();
-        if (manager == null) {
+    public void onJoin(SocketAddress remoteAddress) {
+        if (remoteAddress == null) {
             currentServer = new InetSocketAddress("127.0.0.1", 25565);
         } else {
-            currentServer = FMLCommonHandler.instance().getClientToServerNetworkManager().getRemoteAddress();
+            currentServer = remoteAddress;
         }
-    
+
         // Set server settings
         serverSettings = new ServerSettings(currentServer);
         //LiteLoader.getInstance().registerExposable(serverSettings, null);
-    
+
         try {
             hookIntoChat(Minecraft.getMinecraft().ingameGUI);
         } catch (Exception e) {
             LOGGER.fatal("Unable to hook into chat.  This is bad.", e);
         }
         // load chat
-        /*File conf = serverSettings.getFile().getParentFile();
+        File conf = serverSettings.getFile().getParentFile();
         try {
             chatManager.loadFrom(conf);
         } catch (Exception e) {
             LOGGER.warn("Unable to load chat data.", e);
-        }*/
+        }
     
         if (settings.general.checkUpdates.get() && !updateChecked) {
             //UpdateChecker.runUpdateCheck(TabbedChatProxy.INSTANCE, TabbyRef.getVersionData());

@@ -10,6 +10,7 @@ public enum ChannelPatterns {
     BRACES(Translation.DELIMS_BRACES, "^\\{%s\\}"),
     BRACKETS(Translation.DELIMS_BRACKETS, "^\\[%s\\]"),
     PARENS(Translation.DELIMS_PARENTHESIS, "^\\(%s\\)"),
+    INVERTEDCOMMA(Translation.DELIMS_INVERTEDCOMMA, "^\\u300e%s\\u300f"),
     ANGLESPARENS(Translation.DELIMS_ANGLES_PARENS, "^<\\(%s\\) ?.{3,30}>"),
     ANGLESBRACKETS(Translation.DELIMS_ANGLES_BRAKETS, "^<\\[%s\\] ?.{3,30}>");
 

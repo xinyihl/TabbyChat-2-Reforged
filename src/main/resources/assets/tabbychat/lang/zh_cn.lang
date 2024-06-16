@@ -9,6 +9,7 @@ tabbychat.delims.angles=<角括号>
 tabbychat.delims.braces={大括号}
 tabbychat.delims.brackets=[中括号]
 tabbychat.delims.parenthesis=(小括号)
+tabbychat.delims.invertedcomma=『大引号』
 tabbychat.delims.anglesparens=<(组合)括号>
 tabbychat.delims.anglesbrackets=<[组合]括号>
 
@@ -87,3 +88,4 @@ tabbychat.settings.advanced.spellcheck=启用拼写检查
 tabbychat.settings.experimental=* 实验性功能，可能无法正常工作。
 
 tabbychat.warn.completions=有 %s 个完成项。再次按 Tab 键仍然显示它们。
+tabbychat.message.loadchatdata=聊天记录来自 %s。
