@@ -3,7 +3,7 @@
 	"minVersion": "0.8",
 	"compatibilityLevel": "JAVA_8",
 	"package": "mnm.mods.tabbychat.core.mixin",
-	"refmap": "tabbychat.mixins.refmap.json",
+	"refmap": "tabbychat2.mixins.refmap.json",
 	"mixins": [
 		"IChatTabCompleter",
 		"MixinChatTabCompleter",

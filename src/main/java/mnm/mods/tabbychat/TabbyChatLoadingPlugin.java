@@ -38,6 +38,6 @@ public class TabbyChatLoadingPlugin implements IFMLLoadingPlugin, IEarlyMixinLoa
 
     @Override
     public List<String> getMixinConfigs() {
-        return Collections.singletonList("mixin.tabbychat.json");
+        return Collections.singletonList("mixin.tabbychat2.json");
     }
 }
