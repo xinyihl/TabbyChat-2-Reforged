@@ -12,4 +12,9 @@ public class PlayerLoginHandler {
             TabbyChat.getInstance().onJoin(event.getManager().getRemoteAddress());
         }
     }
+
+    @SubscribeEvent
+    public void onJoin(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
+        TabbyChat.getInstance().onQuit();
+    }
 }

@@ -23,20 +23,26 @@ public abstract class SettingsFile extends ValueObject {
 
     public SettingsFile(String path, String name) {
         this.path = String.format("%s/%s.json", path, name);
-        chackFile();
+        try {
+            chackFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private void chackFile() {
+    private void chackFile() throws IOException {
         file = new File(Minecraft.getMinecraft().gameDir, path);
-        try {
-            // create the paths to it
-            Files.createParentDirs(file);
-        } catch (IOException ignored) {
+        if (!file.exists()) Files.createParentDirs(file);
 
-        }
     }
 
     public File getFile() {
         return file;
+    }
+
+    public void loadConfig() {
+    }
+
+    public void saveConfig() {
     }
 }

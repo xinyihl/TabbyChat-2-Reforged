@@ -107,6 +107,7 @@ public class GuiSettingsScreen extends ComponentScreen {
         super.onGuiClosed();
         for (SettingPanel<?> settingPanel : panels) {
             SettingsFile config = settingPanel.getSettings();
+            config.saveConfig();
             //LiteLoader.getInstance().writeConfig(config);
         }
         ((ChatManager) TabbyChat.getInstance().getChat()).getChatBox().getChatArea().markDirty();

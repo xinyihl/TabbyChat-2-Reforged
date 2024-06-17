@@ -41,7 +41,7 @@ public class TabbyChat {
     public TabbySettings settings;
     public ServerSettings serverSettings;
 
-    private File dataFolder;
+    private final File dataFolder;
     private SocketAddress currentServer;
 
     private boolean updateChecked;
@@ -50,9 +50,9 @@ public class TabbyChat {
         instance = this;
         dataFolder = new File(Minecraft.getMinecraft().gameDir, Reference.MOD_ID);
     }
-    
+
     private static TabbyChat instance;
-    
+
     public static TabbyChat getInstance() {
         if (instance == null) {
             instance = new TabbyChat();
@@ -63,7 +63,7 @@ public class TabbyChat {
     public static Logger getLogger() {
         return LOGGER;
     }
-    
+
 
     public ChatManager getChat() {
         return chatManager;
@@ -72,7 +72,7 @@ public class TabbyChat {
     public GuiNewChatTC getChatGui() {
         return chatGui;
     }
-    
+
 
     public Spellcheck getSpellcheck() {
         return spellcheck;
@@ -96,6 +96,7 @@ public class TabbyChat {
         LOGGER.info("TabbyChat initializing");
         // Set global settings
         settings = new TabbySettings();
+        settings.loadConfig();
         //LiteLoader.getInstance().registerExposable(settings, null);
 
         spellcheck = new Spellcheck(getDataFolder());
@@ -125,12 +126,15 @@ public class TabbyChat {
     public void onJoin(SocketAddress remoteAddress) {
         if (remoteAddress == null) {
             currentServer = new InetSocketAddress("127.0.0.1", 25565);
+            LOGGER.info(String.format("TabbyChat onJoin: [singleplayer] %s:%s", ((InetSocketAddress) currentServer).getHostName(), ((InetSocketAddress) currentServer).getPort()));
         } else {
             currentServer = remoteAddress;
+            LOGGER.info(String.format("TabbyChat onJoin: [multiplayer] %s:%s", ((InetSocketAddress) currentServer).getHostName(), ((InetSocketAddress) currentServer).getPort()));
         }
 
         // Set server settings
         serverSettings = new ServerSettings(currentServer);
+        serverSettings.loadConfig();
         //LiteLoader.getInstance().registerExposable(serverSettings, null);
 
         try {
@@ -145,19 +149,23 @@ public class TabbyChat {
         } catch (Exception e) {
             LOGGER.warn("Unable to load chat data.", e);
         }
-    
+
         if (settings.general.checkUpdates.get() && !updateChecked) {
             //UpdateChecker.runUpdateCheck(TabbedChatProxy.INSTANCE, TabbyRef.getVersionData());
             updateChecked = true;
         }
     }
 
-    
-    private void hookIntoChat(GuiIngame guiIngame) throws Exception {
+    public void onQuit() {
+        settings.saveConfig();
+        serverSettings.saveConfig();
+    }
+
+    private void hookIntoChat(GuiIngame guiIngame) {
         if (!GuiNewChatTC.class.isAssignableFrom(guiIngame.getChatGUI().getClass())) {
             ((IGuiIngame) guiIngame).setPersistantChatGUI(chatGui);
             LOGGER.info("Successfully hooked into chat.");
         }
     }
-    
+
 }
