@@ -15,11 +15,11 @@ public class TabbySettings extends SettingsFile {
 
     public TabbySettings() {
         super(Reference.MOD_ID, "tabbychat");
-        if (!generalFile.exists() || !advancedFile.exists()) saveConfig();
     }
 
     @Override
     public void loadConfig() {
+        if (!generalFile.exists() && !advancedFile.exists()) saveConfig();
         general = loadFromJson(generalFile, (new TypeToken<GeneralSettings>(){}.getType()));
         advanced = loadFromJson(advancedFile, (new TypeToken<AdvancedSettings>(){}.getType()));
     }

@@ -30,7 +30,6 @@ public class ServerSettings extends SettingsFile {
     public ServerSettings(SocketAddress url) {
         super(Reference.MOD_ID + "/" + getIPForFileName(url), "server");
         this.ip = url;
-        if (!generalFile.exists() || !filtersFile.exists() || !channelsFile.exists()) saveConfig();
     }
 
     private static String getIPForFileName(SocketAddress addr) {
@@ -46,6 +45,7 @@ public class ServerSettings extends SettingsFile {
 
     @Override
     public void loadConfig() {
+        if (!generalFile.exists() && !filtersFile.exists() && !channelsFile.exists()) saveConfig();
         general = loadFromJson(generalFile, (new TypeToken<GeneralServerSettings>(){}.getType()));
         filters = loadFromJson(filtersFile, (new TypeToken<ValueList<UserFilter>>(){}.getType()));
         channels = loadFromJson(channelsFile, (new TypeToken<ValueMap<ChatChannel>>(){}.getType()));
@@ -54,8 +54,8 @@ public class ServerSettings extends SettingsFile {
     @Override
     public void saveConfig() {
         saveToJson(generalFile, general);
-        saveToJson(filtersFile, general);
-        saveToJson(channelsFile, general);
+        saveToJson(filtersFile, filters);
+        saveToJson(channelsFile, channels);
     }
 
     public SocketAddress getIP() {

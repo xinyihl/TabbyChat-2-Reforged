@@ -3,10 +3,11 @@ package mnm.mods.util.config;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
 import net.minecraft.client.Minecraft;
+import org.apache.commons.io.FileUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Used for creating settings and saving/loading them in the JSON format. Start
@@ -46,16 +47,16 @@ public abstract class SettingsFile extends ValueObject {
     public abstract void saveConfig();
 
     protected <T> void saveToJson(File file, T object) {
-        try (Writer writer = new OutputStreamWriter(java.nio.file.Files.newOutputStream(file.toPath()), StandardCharsets.UTF_8)) {
-            gson.toJson(object, writer);
+        try {
+            FileUtils.writeStringToFile(file, gson.toJson(object), "UTF-8");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     protected <T> T loadFromJson(File file, Type typeOfT) {
-        try (InputStreamReader reader = new InputStreamReader(java.nio.file.Files.newInputStream(file.toPath()), StandardCharsets.UTF_8)) {
-            return gson.fromJson(reader, typeOfT);
+        try {
+            return gson.fromJson(FileUtils.readFileToString(file, "UTF-8"), typeOfT);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
