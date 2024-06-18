@@ -2,12 +2,11 @@ package mnm.mods.util.config;
 
 import com.google.common.io.Files;
 import com.google.gson.Gson;
-import mnm.mods.tabbychat.Reference;
 import net.minecraft.client.Minecraft;
-import org.apache.commons.io.FileUtils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Used for creating settings and saving/loading them in the JSON format. Start
@@ -22,7 +21,7 @@ public abstract class SettingsFile extends ValueObject {
 
     private transient final String path;
     private transient File file;
-    private Gson gson = new Gson();
+    private static final Gson gson = new Gson();
 
     public SettingsFile(String path, String name) {
         this.path = String.format("%s/%s.json", path, name);
@@ -46,23 +45,21 @@ public abstract class SettingsFile extends ValueObject {
 
     public abstract void saveConfig();
 
-    public <T> void saveConfig(T setting, String filename) {
-        String generalString = gson.toJson(setting);
-        File fileGeneral = new File(Reference.MOD_ID + "/config/"+ filename +".json");
-        try {
-            FileUtils.writeStringToFile(fileGeneral, generalString, "UTF-8");
+    protected <T> void saveToJson(File file, T object) {
+        try (Writer writer = new OutputStreamWriter(java.nio.file.Files.newOutputStream(file.toPath()), StandardCharsets.UTF_8)) {
+            gson.toJson(object, writer);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
-    public <T> T loadConfig(T setting, String filename, Class<T> classOfT) {
-        File fileGeneral = new File(Reference.MOD_ID + "/config/" + filename + ".json");
-        if (!fileGeneral.exists()) saveConfig(setting, filename);
-        try {
-            return gson.fromJson(FileUtils.readFileToString(fileGeneral, "UTF-8"), classOfT);
+    protected <T> T loadFromJson(File file, Type typeOfT) {
+        try (InputStreamReader reader = new InputStreamReader(java.nio.file.Files.newInputStream(file.toPath()), StandardCharsets.UTF_8)) {
+            return gson.fromJson(reader, typeOfT);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return null;
         }
     }
+
 }
