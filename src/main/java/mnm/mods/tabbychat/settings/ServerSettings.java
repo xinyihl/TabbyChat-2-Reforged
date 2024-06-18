@@ -45,45 +45,16 @@ public class ServerSettings extends SettingsFile {
 
     @Override
     public void loadConfig() {
-        Gson gson = new Gson();
-
-        File fileGeneral = new File(Reference.MOD_ID + "/config/generalserversettings.json");
-        File fileFilters = new File(Reference.MOD_ID + "/config/filters.json");
-        File fileChannels = new File(Reference.MOD_ID + "/config/channels.json");
-
-        if (!fileGeneral.exists() || !fileFilters.exists() || !fileChannels.exists()) saveConfig();
-
-        try {
-            general = gson.fromJson(FileUtils.readFileToString(fileGeneral, "UTF-8"), GeneralServerSettings.class);
-            filters = gson.fromJson(FileUtils.readFileToString(fileFilters, "UTF-8"), ValueList.class);
-            channels = gson.fromJson(FileUtils.readFileToString(fileChannels, "UTF-8"), ValueMap.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        general = super.loadConfig(general,"generalserversettings", GeneralServerSettings.class);
+        filters = super.loadConfig(filters,"filters", ValueList.class);
+        channels = super.loadConfig(channels,"channels", ValueMap.class);
     }
 
     @Override
     public void saveConfig() {
-        Gson gson = new Gson();
-
-        String generalString = gson.toJson(general);
-        String filtersString = gson.toJson(filters);
-        String channelsString = gson.toJson(channels);
-
-        File fileGeneral = new File(Reference.MOD_ID + "/config/generalserversettings.json");
-        File fileFilters = new File(Reference.MOD_ID + "/config/filters.json");
-        File fileChannels = new File(Reference.MOD_ID + "/config/channels.json");
-
-        try {
-            if (!fileGeneral.exists()) Files.createParentDirs(fileGeneral);
-            if (!fileFilters.exists()) Files.createParentDirs(fileFilters);
-            if (!fileChannels.exists()) Files.createParentDirs(fileChannels);
-            FileUtils.writeStringToFile(fileGeneral, generalString, "UTF-8");
-            FileUtils.writeStringToFile(fileFilters, filtersString, "UTF-8");
-            FileUtils.writeStringToFile(fileChannels, channelsString, "UTF-8");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        super.saveConfig(general,"generalserversettings");
+        super.saveConfig(filters,"filters");
+        super.saveConfig(channels,"channels");
     }
 
     public SocketAddress getIP() {
