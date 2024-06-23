@@ -27,6 +27,7 @@ public class GuiSettingsScreen extends ComponentScreen {
     static {
         registerSetting(GuiSettingsGeneral.class, GuiSettingsGeneral::new);
         registerSetting(GuiSettingsServer.class, GuiSettingsServer::new);
+        registerSetting(GuiSettingFilters.class, GuiSettingFilters::new);
         registerSetting(GuiSettingsChannel.class, GuiSettingsChannel::new);
         registerSetting(GuiAdvancedSettings.class, GuiAdvancedSettings::new);
     }
