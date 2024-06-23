@@ -21,24 +21,24 @@ public class ServerSettings extends SettingsFile {
     public ValueList<UserFilter> filters = list();
     public ValueMap<ChatChannel> channels = map();
     public ValueMap<ChatChannel> pms = map();
-    private final File generalFile = new File(Reference.MOD_ID + "/config/generalserversettings.json");
-    private final File filtersFile = new File(Reference.MOD_ID + "/config/filters.json");
-    private final File channelsFile = new File(Reference.MOD_ID + "/config/channels.json");
-
-    private transient final SocketAddress ip;
+    private final File generalFile;
+    private final File filtersFile;
+    private final File channelsFile;
 
     public ServerSettings(SocketAddress url) {
         super(Reference.MOD_ID + "/" + getIPForFileName(url), "server");
-        this.ip = url;
+        generalFile = new File(Reference.MOD_ID + "/" + getIPForFileName(url) + "/config/generalserversettings.json");
+        filtersFile = new File(Reference.MOD_ID + "/" + getIPForFileName(url) + "/config/filters.json");
+        channelsFile = new File(Reference.MOD_ID + "/" + getIPForFileName(url) + "/config/channels.json");
     }
 
     private static String getIPForFileName(SocketAddress addr) {
         String ip;
         if (Minecraft.getMinecraft().isSingleplayer()) {
-            ip = "chatdata/singleplayer";
+            ip = "singleplayer";
         } else {
             String url = ((InetSocketAddress) addr).getHostName();
-            ip = "chatdata/multiplayer/" + IPUtils.parse(url).getFileSafeAddress();
+            ip = "multiplayer/" + IPUtils.parse(url).getFileSafeAddress();
         }
         return ip;
     }
@@ -56,10 +56,6 @@ public class ServerSettings extends SettingsFile {
         saveToJson(generalFile, general);
         saveToJson(filtersFile, filters);
         saveToJson(channelsFile, channels);
-    }
-
-    public SocketAddress getIP() {
-        return this.ip;
     }
 
 }

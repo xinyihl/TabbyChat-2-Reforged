@@ -10,11 +10,13 @@ public class TabbySettings extends SettingsFile {
 
     public GeneralSettings general = new GeneralSettings();
     public AdvancedSettings advanced = new AdvancedSettings();
-    private final File generalFile = new File(Reference.MOD_ID + "/config/generalsettings.json");
-    private final File advancedFile = new File(Reference.MOD_ID + "/config/advancedsettings.json");
+    private final File generalFile;
+    private final File advancedFile;
 
     public TabbySettings() {
-        super(Reference.MOD_ID, "tabbychat");
+        super(Reference.MOD_ID, "tabbychat2");
+        generalFile = new File(Reference.MOD_ID + "/config/generalsettings.json");
+        advancedFile = new File(Reference.MOD_ID + "/config/advancedsettings.json");
     }
 
     @Override
