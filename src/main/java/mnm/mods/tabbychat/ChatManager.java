@@ -307,7 +307,9 @@ public class ChatManager implements Chat {
         }
     }
 
-    void save() {
+    public void save() {}
+
+    void saveing(){
         if (loading) {
             return;
         }

@@ -159,6 +159,7 @@ public class TabbyChat {
     public void onQuit() {
         settings.saveConfig();
         serverSettings.saveConfig();
+        TabbyChat.getInstance().getChat().saveing();
     }
 
     private void hookIntoChat(GuiIngame guiIngame) {
